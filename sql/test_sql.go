@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"gorm.io/gorm"
 )
 
@@ -148,25 +146,25 @@ func main() {
 	//var user User
 	//db.Where("id = ?", 7).Delete(&user)
 
-	//测试关联查询
-	db.AutoMigrate(&User2{}, &Company{})
-
-	// 因为已经指定了约束关系，User.companyId 字段会自动被 Company.ID 字段填充。
-	user := User2{
-		Model: gorm.Model{},
-		Name:  "amos",
-		Company: Company{
-			ID:   12,
-			Name: "google",
-		},
-	}
-
-	// 关联插入。在插入 user 记录时，也插入 compancy 记录。
-	db.Create(&user)
-
-	var result User2
-	db.Model(&User2{}).Preload("Company").Find(&result, "name = ?", user.Name)
-	data, _ := json.Marshal(result)
-	fmt.Println(string(data))
+	////测试关联查询
+	//db.AutoMigrate(&User2{}, &Company{})
+	//
+	//// 因为已经指定了约束关系，User.companyId 字段会自动被 Company.ID 字段填充。
+	//user := User2{
+	//	Model: gorm.Model{},
+	//	Name:  "amos",
+	//	Company: Company{
+	//		ID:   12,
+	//		Name: "google",
+	//	},
+	//}
+	//
+	//// 关联插入。在插入 user 记录时，也插入 compancy 记录。
+	//db.Create(&user)
+	//
+	//var result User2
+	//db.Model(&User2{}).Preload("Company").Find(&result, "name = ?", user.Name)
+	//data, _ := json.Marshal(result)
+	//fmt.Println(string(data))
 
 }
