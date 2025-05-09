@@ -1,0 +1,5 @@
+{"level":"info","ts":1746760321.2154675,"msg":"success{status code 15 0 200 OK <nil>} {url 15 0 http://www.baidu.com <nil>}"}
+{"level":"info","ts":1746760561.8818605,"msg":"success{status code 15 0 200 OK <nil>} {url 15 0 http://www.baidu.com <nil>}"}
+{"level":"error","ts":1746760582.9333637,"msg":"error fetching url{url 15 0 http://www.google.com <nil>} {error 26 0  Get \"http://www.google.com\": dial tcp 31.13.94.41:80: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.}"}
+1.7467606277251315e+09	info	success{status code 15 0 200 OK <nil>} {url 15 0 http://www.baidu.com <nil>}
+1.7467606487419167e+09	error	error fetching url{url 15 0 http://www.google.com <nil>} {error 26 0  Get "http://www.google.com": dial tcp 31.13.94.41:80: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.}

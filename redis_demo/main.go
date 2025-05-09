@@ -121,6 +121,49 @@ func zsetDemo() {
 	}
 }
 
+func pipeDemo() {
+	pipe := rdb.Pipeline()
+	incr := pipe.Incr("score")
+	pipe.Expire("score", 0)
+	_, err := pipe.Exec()
+	if err != nil {
+		fmt.Println("pipe exec failed", err)
+		return
+	}
+	fmt.Println("pipe exec success", incr)
+
+	//redis 事务，  内部会用multi/exec 执行，保证在这个rtt内不会有别的客户端的命令出现
+	txpipe := pipe.TxPipeline()
+	incr = txpipe.Incr("score")
+	txpipe.Expire("score", 0)
+	_, err = txpipe.Exec()
+	if err != nil {
+		fmt.Println("pipe exec failed", err)
+		return
+	}
+	fmt.Println("pipe exec success", incr)
+}
+
+func watchDemo() {
+	key := "watch"
+	err := rdb.Watch(func(tx *redis.Tx) error {
+		n, err := tx.Get(key).Int()
+		if err != nil && err != redis.Nil {
+			return err
+		}
+		_, err = tx.Pipelined(func(pipe redis.Pipeliner) error {
+			//业务逻辑
+			pipe.Set(key, n+1, 0)
+			return nil
+		})
+		return err
+	}, key)
+	if err != nil {
+		fmt.Println("watch failed", err)
+		return
+	}
+	fmt.Println("watch success")
+}
 func main() {
 	if err := initRedis(); err != nil {
 		fmt.Println("init redis client failed ,err:", err)
