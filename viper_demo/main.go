@@ -3,10 +3,20 @@ package main
 import (
 	"fmt"
 	"github.com/fsnotify/fsnotify"
-	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"net/http"
 )
+
+type Config struct {
+	Port        int    `mapstructure:"port"`
+	Version     string `mapstructure:"version"`
+	MysqlConfig `mapstructure:"mysql"`
+}
+
+type MysqlConfig struct {
+	Host   string `mapstructure:"host"`
+	Port   int    `mapstructure:"port"`
+	Dbname string `mapstructure:"dbname"`
+}
 
 func main() {
 	viper.SetDefault("fileDir", "./")
@@ -30,10 +40,18 @@ func main() {
 		fmt.Println("Config file changed:", e.Name)
 	})
 
-	r := gin.Default()
-	r.GET("/version", func(c *gin.Context) {
-		c.String(http.StatusOK, viper.GetString("version"))
-	})
+	var c Config
+	if err := viper.Unmarshal(&c); err != nil {
+		fmt.Println("Unmarshal err:", err)
+		return
+	}
 
-	r.Run()
+	fmt.Println("c:%#v\n", c)
+
+	//r := gin.Default()
+	//r.GET("/version", func(c *gin.Context) {
+	//	c.String(http.StatusOK, viper.GetString("version"))
+	//})
+	//
+	//r.Run()
 }
