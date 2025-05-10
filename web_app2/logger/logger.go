@@ -13,6 +13,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"time"
+	"web_app2/settings"
 )
 
 // 设置logger编码格式 json console...
@@ -60,17 +61,17 @@ func getLoggerWriter(filename string, maxsize, maxage, maxbackups int) zapcore.W
 	return zapcore.AddSync(lumberjackLogger)
 }
 
-func Init() (err error) {
+func Init(cfg *settings.LogConfig) (err error) {
 	//logger, _ = zap.NewProduction()
 	//logger, _ = zap.NewDevelopment()
 	//sugar = logger.Sugar()
 
 	encoder := getEncoder()
 	writeSyncer := getLoggerWriter(
-		viper.GetString("log.filename"),
-		viper.GetInt("log.maxsize"),
-		viper.GetInt("log.maxage"),
-		viper.GetInt("log.maxbackups"),
+		cfg.Filename,
+		cfg.MaxSize,
+		cfg.MaxAge,
+		cfg.MaxBackups,
 	)
 
 	var l = new(zapcore.Level)

@@ -5,7 +5,6 @@ import (
 	_ "database/sql"
 	"fmt"
 	_ "github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"log"
 	"net/http"
@@ -13,11 +12,12 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"web_app/dao/mysql"
-	"web_app/dao/redis"
-	"web_app/logger"
-	"web_app/routes"
-	"web_app/settings"
+	"web_app2/dao/mysql"
+	"web_app2/dao/redis"
+	"web_app2/logger"
+	"web_app2/pkg/snowflake"
+	"web_app2/router"
+	"web_app2/settings"
 )
 
 //go web 开发脚手架模板
@@ -29,7 +29,7 @@ func main() {
 		return
 	}
 	//2.初始化日志
-	if err := logger.Init(); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig); err != nil {
 		fmt.Println("init logger err:", err)
 		return
 	}
@@ -37,23 +37,30 @@ func main() {
 	zap.L().Debug("logger init success...")
 
 	//3.初始化mysql
-	if err := mysql.Init(); err != nil {
+	if err := mysql.Init(settings.Conf.MySqlConfig); err != nil {
 		fmt.Println("init mysql err:", err)
 		return
 	}
 
 	//4.初始化redis
-	if err := redis.Init(); err != nil {
+	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
 		fmt.Println("init redis err:", err)
 		return
 	}
 	defer redis.Close()
+
+	//初始化雪花id
+	if err := snowflake.Init(settings.Conf.StartTime, settings.Conf.MachineID); err != nil {
+		fmt.Println("init snowflake err:", err)
+		return
+	}
+
 	//5.注册路由
-	r := routes.Setup()
+	r := router.Setup()
 
 	//6.启动服务
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", viper.GetInt("app.port")),
+		Addr:    fmt.Sprintf(":%d", settings.Conf.Port),
 		Handler: r,
 	}
 

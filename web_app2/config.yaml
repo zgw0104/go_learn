@@ -1,11 +1,15 @@
-app:
-  name: "web_app"
-  mode: "dev"
-  port: 8081
+name: "bluebell"
+mode: "dev"
+port: 8080
+version: "v0.0.1"
+start_time: "2025-05-10"
+machine_id: 1
+
+
 
 log:
   level: "debug"
-  filename: "web_app.log"
+  filename: "web_app2.log"
   maxsize: 200
   maxage: 30
   maxbackups: 7
@@ -14,7 +18,7 @@ mysql:
   host: "127.0.0.1"
   port: 3306
   user: "root"
-  pwd: "64220392"
+  pwd: "zgw64220392"
   dbname: "go"
   max_open: 100
   max_idle: 100

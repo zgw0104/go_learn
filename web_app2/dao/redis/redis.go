@@ -3,24 +3,24 @@ package redis
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/spf13/viper"
+	"web_app2/settings"
 )
 
-var rdb *redis.Client
+var Rdb *redis.Client
 
-func Init() (err error) {
-	rdb = redis.NewClient(&redis.Options{
+func Init(cfg *settings.RedisConfig) (err error) {
+	Rdb = redis.NewClient(&redis.Options{
 		Addr: fmt.Sprintf("%s:%d",
-			viper.GetString("redis.host"),
-			viper.GetInt("redis.port"),
+			cfg.Host,
+			cfg.Port,
 		),
 
-		Password: viper.GetString("redis.pwd"),
-		DB:       viper.GetInt("redis.db"),
-		PoolSize: viper.GetInt("redis.pool_size"),
+		Password: cfg.Pwd,
+		DB:       cfg.DB,
+		PoolSize: cfg.PoolSize,
 	})
 
-	_, err = rdb.Ping().Result()
+	_, err = Rdb.Ping().Result()
 	if err != nil {
 		return err
 	}
@@ -28,5 +28,5 @@ func Init() (err error) {
 }
 
 func Close() {
-	rdb.Close()
+	Rdb.Close()
 }

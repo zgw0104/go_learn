@@ -14,6 +14,8 @@ type AppConfig struct {
 	Mode         string `mapstructure:"mode"`
 	Version      string `mapstructure:"version"`
 	Port         int    `mapstructure:"port"`
+	StartTime    string `mapstructure:"start_time"`
+	MachineID    int64  `mapstructure:"machine_id"`
 	*LogConfig   `mapstructure:"log"`
 	*MySqlConfig `mapstructure:"mysql"`
 	*RedisConfig `mapstructure:"redis"`
@@ -46,8 +48,9 @@ type RedisConfig struct {
 }
 
 func Init() (err error) {
-	viper.SetConfigFile("config")
-	viper.SetConfigType("yaml")
+	viper.SetConfigFile("config.yaml")
+	//viper.SetConfigFile("config")
+	//viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 
 	err = viper.ReadInConfig()
@@ -55,9 +58,17 @@ func Init() (err error) {
 		return err
 	}
 
+	//读取到的配置信息反序列化
+	if err := viper.Unmarshal(Conf); err != nil {
+		fmt.Println("viper.Unmarshal err:", err.Error())
+	}
+
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("Config file changed:", e.Name)
+		if err := viper.Unmarshal(Conf); err != nil {
+			fmt.Println("viper.Unmarshal err:", err.Error())
+		}
 	})
 	return
 	//r := gin.Default()
