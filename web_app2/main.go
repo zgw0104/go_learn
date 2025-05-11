@@ -12,6 +12,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"web_app2/controller"
 	"web_app2/dao/mysql"
 	"web_app2/dao/redis"
 	"web_app2/logger"
@@ -29,7 +30,7 @@ func main() {
 		return
 	}
 	//2.初始化日志
-	if err := logger.Init(settings.Conf.LogConfig); err != nil {
+	if err := logger.Init(settings.Conf.LogConfig, settings.Conf.Mode); err != nil {
 		fmt.Println("init logger err:", err)
 		return
 	}
@@ -55,9 +56,13 @@ func main() {
 		return
 	}
 
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Println("init controller err:%v\n", err)
+	}
+
 	//5.注册路由
 	r := router.Setup()
-
+	
 	//6.启动服务
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", settings.Conf.Port),

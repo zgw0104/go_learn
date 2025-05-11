@@ -1,9 +1,12 @@
 package controller
 
 import (
+	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"go.uber.org/zap"
-	"net/http"
+	"web_app2/dao/mysql"
 	"web_app2/logic"
 	"web_app2/models"
 )
@@ -14,20 +17,60 @@ func SignUpHandler(c *gin.Context) {
 	//1 获取参数和参数校验
 	p := new(models.ParamSighUp)
 	if err := c.ShouldBindJSON(p); err != nil {
-		zap.L().Error("SignUp with  invalid param", zap.Error(err))
-		c.JSON(http.StatusBadRequest, gin.H{"请求参数有误": err.Error()})
+		zap.L().Error("SignUp with invalid param", zap.Error(err))
+
+		//判断err是不是validator类型
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			Response(c, CodeInvalidParam)
+			return
+		}
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
 		return
 	}
-	//手动对请求参数进行详细的业务规则校验
-	//if len(p.Password) == 8 || len(p.Username) == 0 || len(p.RePasswd) == 0 || p.Password != p.RePasswd {
-	//	zap.L().Error("SignUp with  invalid param")
-	//	c.JSON(http.StatusBadRequest, gin.H{"msg": "请求参数有误"})
-	//	return
-	//}
+
 	//2 业务处理
-	logic.SignUp(p)
+	if err := logic.SignUp(p); err != nil {
+		zap.L().Error("SignUp err:", zap.Error(err))
+		if errors.Is(err, mysql.ErrorUserExist) {
+			Response(c, CodeUserExist)
+			return
+		}
+		Response(c, CodeSignUpFailed)
+		return
+	}
 	//3 返回响应
-	c.JSON(http.StatusOK, gin.H{
-		"message": "ok",
-	})
+	Response(c, CodeSignUpSuccess)
+}
+
+func SignInHandler(c *gin.Context) {
+	//1 获取参数和参数校验
+	p := new(models.ParamSignIn)
+	fmt.Println("1) p:=new()", p)
+
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("SignIn with invalid param", zap.Error(err))
+
+		//判断err是不是validator类型
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			Response(c, CodeInvalidParam)
+			return
+		}
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+
+	//2 业务处理
+	if err := logic.SignIn(p); err != nil {
+		zap.L().Error("SignIn err", zap.Error(err))
+		if errors.Is(err, mysql.ErrorUserNotExist) {
+			Response(c, CodeUserNotExist)
+		}
+		Response(c, CodeInvalidPwd)
+		return
+	}
+
+	//3 返回响应
+	Response(c, CodeLoginSuccess)
 }

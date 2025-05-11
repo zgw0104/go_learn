@@ -61,7 +61,7 @@ func getLoggerWriter(filename string, maxsize, maxage, maxbackups int) zapcore.W
 	return zapcore.AddSync(lumberjackLogger)
 }
 
-func Init(cfg *settings.LogConfig) (err error) {
+func Init(cfg *settings.LogConfig, mode string) (err error) {
 	//logger, _ = zap.NewProduction()
 	//logger, _ = zap.NewDevelopment()
 	//sugar = logger.Sugar()
@@ -80,7 +80,17 @@ func Init(cfg *settings.LogConfig) (err error) {
 		return
 	}
 
-	core := zapcore.NewCore(encoder, writeSyncer, l)
+	var core zapcore.Core
+	if mode == "dev" {
+		// 开发模式，日志输出到终端
+		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
+		core = zapcore.NewTee(
+			zapcore.NewCore(encoder, writeSyncer, l),
+			zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zap.DebugLevel),
+		)
+	} else {
+		core = zapcore.NewCore(encoder, writeSyncer, l)
+	}
 
 	logger := zap.New(core, zap.AddCaller()) //zao.AddCaller() -->  记录函数调用信息
 	zap.ReplaceGlobals(logger)
