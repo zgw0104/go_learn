@@ -21,7 +21,7 @@ type MyClaim struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(userId int64) (string, error) {
+func GenerateToken(userId int64) (atoken, rtoken string, err error) {
 	claims := MyClaim{
 		UserId: userId,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -32,8 +32,15 @@ func GenerateToken(userId int64) (string, error) {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(mySecret)
+	atoken, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(mySecret)
+
+	//refresh token
+	rtoken, err = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
+		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Second * 30)),
+		Issuer:    "gw",
+	}).SignedString(mySecret)
+
+	return atoken, rtoken, err
 }
 
 func ParseToken(tokenString string) (*MyClaim, error) {
@@ -49,3 +56,24 @@ func ParseToken(tokenString string) (*MyClaim, error) {
 	}
 	return nil, errors.New("invalid token")
 }
+
+//
+//func RefreshToken(aToken, rToken string) (newAToken, newRToken string, err error) {
+//	if _, err = jwt.Parse(rToken, func(token *jwt.Token) (interface{}, error) {
+//		return mySecret, nil
+//	}); err != nil {
+//		return
+//	}
+//
+//	//从旧 atoken中解析出claim数据
+//	var claims MyClaim
+//	_, err = jwt.ParseWithClaims(aToken, &claims, func(token *jwt.Token) (interface{}, error) {
+//		return mySecret, nil
+//	})
+//	v, _ := err.(*jwt.ValidationError)
+//
+//	if v.Errors == jwt.ValidationErrorExpired {
+//		return GenerateToken(claims.UserId)
+//	}
+//	return
+//}

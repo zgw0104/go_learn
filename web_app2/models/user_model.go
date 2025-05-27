@@ -11,4 +11,6 @@ type User struct {
 	Gender     int       `gorm:"column:gender"`
 	CreateTime time.Time `gorm:"column:create_time"`
 	UpdateTime time.Time `gorm:"column:update_time"`
+	Atoken     string    `json:"atoken"`
+	Rtoken     string    `json:"rtoken"`
 }

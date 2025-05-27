@@ -6,7 +6,10 @@ import (
 	"web_app2/settings"
 )
 
-var Rdb *redis.Client
+var (
+	Rdb *redis.Client
+	Nil = redis.Nil
+)
 
 func Init(cfg *settings.RedisConfig) (err error) {
 	Rdb = redis.NewClient(&redis.Options{

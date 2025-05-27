@@ -13,6 +13,9 @@ const (
 	CodeSignUpSuccess
 	CodeLoginFailed
 	CodeLoginSuccess
+
+	CodeInvalidToken
+	CodeNeedLogin
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -26,6 +29,8 @@ var codeMsgMap = map[ResCode]string{
 	CodeSignUpSuccess: "注册成功",
 	CodeLoginFailed:   "登录失败",
 	CodeLoginSuccess:  "登录成功",
+	CodeInvalidToken:  "无效token",
+	CodeNeedLogin:     "需要登录",
 }
 
 func (c ResCode) GetMsg() string {

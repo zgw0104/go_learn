@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
+	"go.uber.org/zap"
 	"time"
 	"web_app2/models"
 )
@@ -38,7 +39,7 @@ func InsertUser(user *models.User) (err error) {
 	user.Password = encryptPwd(user.Password)
 	user.UpdateTime = time.Now()
 	// 执行sql语句入库
-	result := db.Table("user").Create(user)
+	result := db.Table("user").Create(&user)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -61,4 +62,13 @@ func encryptPwd(pwd string) string {
 	h := md5.New()
 	h.Write([]byte(secret))
 	return hex.EncodeToString(h.Sum([]byte(pwd)))
+}
+
+func FindUserByID(id int64) (user *models.User, err error) {
+	result := db.Table("user").Where("user_id = ?", id).First(&user)
+	if result.Error != nil {
+		zap.L().Error("User not exist", zap.Error(result.Error))
+		return nil, result.Error
+	}
+	return user, nil
 }

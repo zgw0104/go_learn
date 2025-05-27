@@ -6,6 +6,7 @@ import (
 	"time"
 	"web_app2/dao/mysql"
 	"web_app2/models"
+	"web_app2/pkg/jwt"
 	"web_app2/pkg/snowflake"
 )
 
@@ -37,17 +38,22 @@ func SignUp(p *models.ParamSighUp) (err error) {
 
 }
 
-func SignIn(p *models.ParamSignIn) (err error) {
-	user := &models.User{
+func SignIn(p *models.ParamSignIn) (user *models.User, err error) {
+	user = &models.User{
 		UserName: p.Username,
 		Password: p.Password,
 	}
 
-	fmt.Println("2) user:= &U{}", *user)
-	//判断用户是否存在
+	//判断用户是否存在,  传递的是指针，因此user变量改变了
 	if err := mysql.FindUser(user); err != nil {
-		return err
+		return nil, err
 	}
-
-	return
+	// 生成jwt
+	atoken, rtoken, err := jwt.GenerateToken(user.UserId)
+	if err != nil {
+		return nil, err
+	}
+	user.Atoken = atoken
+	user.Rtoken = rtoken
+	return user, nil
 }
