@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fe726d09-44e5-4f6d-bd22-2d2bbec03808" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../web_app2/controller/post_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../web_app2/middleware/ratelimit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/.air.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/.air.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/controller/docs_model.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/controller/docs_model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/controller/post.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/controller/post.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/dao/redis/post.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/dao/redis/post.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/logic/post.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/logic/post.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/models/params.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/models/params.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/router/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/router/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web_app2/web_app2.log" beforeDir="false" afterPath="$PROJECT_DIR$/../web_app2/web_app2.log" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../GOPATH/pkg/mod/golang.org/toolchain@v0.0.1-go1.23.8.windows-amd64" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2xgHlzNgpBnfBdj75strYZHEST4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.GoLinterPluginOnboarding": "true",
+    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "master",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/administered",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "F:/GOCODE/go_learn/docker_demo/main.go"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-3b128438d3f6-34ac7aa8f6ab-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-251.23774.430" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-GO-251.23774.430" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fe726d09-44e5-4f6d-bd22-2d2bbec03808" name="Changes" comment="" />
+      <created>1748352951232</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748352951232</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <environment>
+      <map>
+        <entry key="GOPROXY" value="https://goproxy.cn,direct" />
+      </map>
+    </environment>
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

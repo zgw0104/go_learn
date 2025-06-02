@@ -2,16 +2,21 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
 	"net/http"
+	"time"
 	"web_app2/controller"
 	"web_app2/logger"
 	"web_app2/middleware"
+
+	gs "github.com/swaggo/gin-swagger"
+	_ "web_app2/docs"
 )
 
 func Setup() *gin.Engine {
 
 	r := gin.New()
-	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+	r.Use(logger.GinLogger(), logger.GinRecovery(true), middleware.RateLimitMiddleware(time.Second*2, 1)) //全网限流加在这里
 
 	v1 := r.Group("api/v1")
 
@@ -19,8 +24,9 @@ func Setup() *gin.Engine {
 	v1.POST("/signup", controller.SignUpHandler)
 
 	v1.POST("/signin", controller.SignInHandler)
+	r.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 
-	v1.Use(middleware.JWTAuthMiddleware())
+	v1.Use(middleware.JWTAuthMiddleware()) // api服务限流加在这里
 
 	{
 		v1.GET("/community", controller.CommunityHandler)
@@ -29,7 +35,7 @@ func Setup() *gin.Engine {
 		v1.GET("/post/:id", controller.GetPostDetailHandler)
 		v1.GET("/posts/", controller.GetPostListHandler)
 		v1.GET("/posts2/", controller.GetPostListHandler2)
-		v1.GET("/posts3", controller.GetCommunityPostListHandler)
+		//v1.GET("/posts3", controller.GetCommunityPostListHandler)
 
 		v1.POST("/vote", controller.PostVoteHandler)
 

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package api.git;
+import "google/api/annotations.proto";
+
+
+option go_package = "kratos_git/api/git;git";
+option java_multiple_files = true;
+option java_package = "api.git";
+
+service User {
+//	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
+//	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
+//	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
+//	rpc GetUser (GetUserRequest) returns (GetUserReply);
+//	rpc ListUser (ListUserRequest) returns (ListUserReply);
+	rpc Login(LoginRequest) returns (LoginReply){
+		option (google.api.http) = {
+			post: "/login"
+			body: "*"
+		};
+	}
+}
+message LoginRequest{
+	string username = 1;
+	string password = 2;
+}
+message LoginReply{
+	string token =1 ;
+}
+
+//message CreateUserRequest {}
+//message CreateUserReply {}
+//
+//message UpdateUserRequest {}
+//message UpdateUserReply {}
+//
+//message DeleteUserRequest {}
+//message DeleteUserReply {}
+//
+//message GetUserRequest {}
+//message GetUserReply {}
+//
+//message ListUserRequest {}
+//message ListUserReply {}

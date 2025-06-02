@@ -59,6 +59,7 @@ func GetPostDetailHandler(c *gin.Context) {
 
 }
 
+// 获取分页帖子信息
 func GetPostListHandler(c *gin.Context) {
 
 	ipage, ipagesize := GetPageInfo(c)
@@ -93,7 +94,7 @@ func GetPostListHandler2(c *gin.Context) {
 	}
 
 	//ipage, ipagesize, order := GetPageInfo2(c)
-	postList, err := logic.GetPostList2(p)
+	postList, err := logic.GetPostListNew(p)
 	if err != nil {
 		zap.L().Error("logic.GetPostList failed", zap.Error(err))
 		Response(c, CodeServerBusy)
@@ -115,26 +116,26 @@ func GetPostListHandler2(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Success 200 {object} _ResponsePostList
 // @Router /posts2 [get]
-func GetCommunityPostListHandler(c *gin.Context) {
-
-	p := &models.ParamCommunityPostList{
-		ParamPostList: &models.ParamPostList{
-			Page:     1,
-			Pagesize: 10,
-			Order:    "time",
-		},
-	}
-	if err := c.ShouldBindQuery(p); err != nil {
-		zap.L().Error("ShouldBindQuery failed", zap.Error(err))
-		Response(c, CodeInvalidParam)
-		return
-	}
-
-	postList, err := logic.GetCommunityPostList(p)
-	if err != nil {
-		zap.L().Error("logic.GetPostList failed", zap.Error(err))
-		Response(c, CodeServerBusy)
-		return
-	}
-	ResponseSuccess(c, postList)
-}
+//func GetCommunityPostListHandler(c *gin.Context) {
+//
+//	p := &models.ParamCommunityPostList{
+//		ParamPostList: &models.ParamPostList{
+//			Page:     1,
+//			Pagesize: 10,
+//			Order:    "time",
+//		},
+//	}
+//	if err := c.ShouldBindQuery(p); err != nil {
+//		zap.L().Error("ShouldBindQuery failed", zap.Error(err))
+//		Response(c, CodeInvalidParam)
+//		return
+//	}
+//
+//	postList, err := logic.GetCommunityPostList(p)
+//	if err != nil {
+//		zap.L().Error("logic.GetPostList failed", zap.Error(err))
+//		Response(c, CodeServerBusy)
+//		return
+//	}
+//	ResponseSuccess(c, postList)
+//}

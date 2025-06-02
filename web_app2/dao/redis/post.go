@@ -75,7 +75,7 @@ func GetPostVoteData(ids []string) (data []int64, err error) {
 }
 
 //按社区 根据ids查找数据
-func GetCommunityPostsIdByOrder(p *models.ParamCommunityPostList) ([]string, error) {
+func GetCommunityPostsIdByOrder(p *models.ParamPostList) ([]string, error) {
 	orderKey := getRedisKey(KeyPostTimeZset)
 	if p.Order == "score" {
 		orderKey = getRedisKey(KeyPostScoreZset)

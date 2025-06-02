@@ -24,9 +24,10 @@ type VoteData struct {
 
 //获取帖子列表参数
 type ParamPostList struct {
-	Page     int64  `json:"page" form:"page"`
-	Pagesize int64  `json:"pagesize" form:"pagesize"`
-	Order    string `json:"order" form:"order"`
+	Page        int64  `json:"page" form:"page"`
+	Pagesize    int64  `json:"pagesize" form:"pagesize"`
+	Order       string `json:"order" form:"order"`
+	CommunityID int64  `json:"community_id" form:"community_id"` //form  将query表单绑定(shouldBind)
 }
 
 //根据社区获取帖子列表

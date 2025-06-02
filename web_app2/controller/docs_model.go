@@ -1,5 +1,7 @@
 package controller
 
+import "web_app2/models"
+
 // _ResponsePostList 帖子列表接口响应数据
 type _ResponsePostList struct {
 	Code    ResCode                 `json:"code"`    // 业务响应状态码
